@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kevin Marshall — Supply Chain Manager</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f5f0e8;
+    --ink: #1a1810;
+    --rust: #c45c2a;
+    --sand: #d4c4a0;
+    --light: #ede7d9;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0.4;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: relative;
+    padding: 80px 60px 60px;
+    border-bottom: 1px solid var(--sand);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 40px;
+    overflow: hidden;
+  }
+
+  header::after {
+    content: 'KM';
+    position: absolute;
+    right: -20px;
+    top: -30px;
+    font-family: 'Playfair Display', serif;
+    font-size: 260px;
+    font-weight: 900;
+    color: var(--sand);
+    opacity: 0.3;
+    line-height: 1;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .header-left { position: relative; z-index: 1; }
+
+  .eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(52px, 8vw, 96px);
+    font-weight: 900;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+  }
+
+  .tagline {
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.7;
+    max-width: 480px;
+    color: #5a5040;
+  }
+
+  .contact-block {
+    position: relative;
+    z-index: 1;
+    text-align: right;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    line-height: 2.2;
+    color: #5a5040;
+  }
+
+  .contact-block a {
+    color: var(--rust);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+  }
+
+  .contact-block a:hover { border-color: var(--rust); }
+
+  /* ── MAIN LAYOUT ── */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 60px;
+  }
+
+  main {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 0;
+  }
+
+  /* ── LEFT COLUMN ── */
+  .left-col {
+    border-right: 1px solid var(--sand);
+    padding: 60px 60px 80px 0;
+  }
+
+  /* ── RIGHT COLUMN ── */
+  .right-col {
+    padding: 60px 0 80px 50px;
+  }
+
+  /* ── SECTIONS ── */
+  .section {
+    margin-bottom: 56px;
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--sand);
+  }
+
+  /* ── ABOUT ── */
+  .about-text {
+    font-size: 15px;
+    line-height: 1.85;
+    color: #3a3228;
+  }
+
+  .about-text p + p { margin-top: 16px; }
+
+  /* ── EXPERIENCE ── */
+  .job {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0 24px;
+    margin-bottom: 40px;
+    position: relative;
+  }
+
+  .job::before {
+    content: '';
+    position: absolute;
+    left: 11px;
+    top: 24px;
+    bottom: -40px;
+    width: 1px;
+    background: var(--sand);
+  }
+
+  .job:last-child::before { display: none; }
+
+  .job-dot {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid var(--rust);
+    background: var(--cream);
+    flex-shrink: 0;
+    margin-top: 2px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .job-dot.current {
+    background: var(--rust);
+  }
+
+  .job-content { flex: 1; }
+
+  .job-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 4px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .job-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .job-period {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--rust);
+    letter-spacing: 0.05em;
+  }
+
+  .job-company {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #8a7a60;
+    margin-bottom: 12px;
+  }
+
+  .job-bullets {
+    list-style: none;
+    font-size: 14px;
+    line-height: 1.7;
+    color: #3a3228;
+  }
+
+  .job-bullets li {
+    padding-left: 16px;
+    position: relative;
+    margin-bottom: 6px;
+  }
+
+  .job-bullets li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--rust);
+    font-size: 12px;
+  }
+
+  /* ── SKILLS ── */
+  .skills-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .skill-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    padding: 6px 14px;
+    border: 1px solid var(--sand);
+    background: var(--light);
+    border-radius: 2px;
+    transition: all 0.2s;
+  }
+
+  .skill-tag:hover {
+    background: var(--rust);
+    color: var(--cream);
+    border-color: var(--rust);
+  }
+
+  /* ── EDUCATION ── */
+  .edu-block {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 28px 28px 24px;
+    margin-bottom: 32px;
+  }
+
+  .edu-school {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .edu-degree {
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--sand);
+  }
+
+  .edu-major {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--rust);
+    margin-top: 8px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* ── INTERESTS ── */
+  .interests-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .interest-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    font-weight: 400;
+    color: #5a5040;
+  }
+
+  .interest-item::before {
+    content: '◆';
+    font-size: 8px;
+    color: var(--rust);
+  }
+
+  /* ── OTHER ── */
+  .other-list {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    line-height: 2.2;
+    color: #8a7a60;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--sand);
+    padding: 24px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: #a09070;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  header { animation: fadeUp 0.6s ease both; }
+  .left-col { animation: fadeUp 0.6s 0.15s ease both; }
+  .right-col { animation: fadeUp 0.6s 0.25s ease both; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 800px) {
+    header { padding: 48px 28px 40px; grid-template-columns: 1fr; }
+    header::after { font-size: 140px; }
+    .contact-block { text-align: left; }
+    .container { padding: 0 28px; }
+    main { grid-template-columns: 1fr; }
+    .left-col { border-right: none; border-bottom: 1px solid var(--sand); padding: 40px 0; }
+    .right-col { padding: 40px 0 60px; }
+    footer { padding: 20px 28px; flex-direction: column; gap: 8px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <div class="header-left">
+      <p class="eyebrow">Supply Chain Manager · Charlotte, NC</p>
+      <h1>Kevin<br>Marshall</h1>
+      <p class="tagline">Experienced in optimizing business operations — simplifying complex workflows to drive results in dynamic environments.</p>
+    </div>
+    <div class="contact-block">
+      <div><a href="tel:7046825724">704.682.5724</a></div>
+      <div><a href="mailto:Kevinmarshall665@gmail.com">Kevinmarshall665@gmail.com</a></div>
+      <div>222 E Bland St, Charlotte, NC 28202</div>
+    </div>
+  </header>
+
+  <main>
+    <!-- LEFT: Experience + About -->
+    <div class="left-col">
+
+      <div class="section">
+        <p class="section-label">About</p>
+        <div class="about-text">
+          <p>Kevin Marshall serves as Supply Chain Manager at Infusive, where he plays a central role in maintaining the operational backbone of the company. His background spans multiple areas of the supply chain world, from aerospace to freight logistics.</p>
+          <p>Kevin has developed a reputation for staying composed under pressure and making clear, thoughtful decisions that keep operations moving smoothly. His deep familiarity with vendor networks allows him to navigate disruptions and guide customers toward reliable, timely solutions.</p>
+          <p>At Infusive, Kevin focuses on designing, managing, and continuously refining the systems that drive operations — overseeing workflows behind each order, supporting storefront improvements, and ensuring customers receive high-quality service.</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <p class="section-label">Experience</p>
+
+        <div class="job">
+          <div class="job-dot current"></div>
+          <div class="job-content">
+            <div class="job-meta">
+              <span class="job-title">Supply Chain Manager</span>
+              <span class="job-period">Apr 2024 — Present</span>
+            </div>
+            <p class="job-company">Infusive</p>
+            <ul class="job-bullets">
+              <li>Hired and manage 5 VAs to run CS & Ops — processing orders, updating clients, and communicating setbacks with solutions.</li>
+              <li>Manage customer relationships, cross-selling, delivery timelines, and automatic PAR level ordering.</li>
+              <li>Developed KPIs and continuous reporting frameworks to track and improve performance.</li>
+              <li>Built a catalog of 1,000+ products, growing vendor partnerships from 5 to 15.</li>
+              <li>Restructured an in-house ordering portal, working directly with developers on technical improvements.</li>
+              <li>Negotiate pricing, shipping costs/times, ordering workflows, and order transparency with vendors.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="job">
+          <div class="job-dot"></div>
+          <div class="job-content">
+            <div class="job-meta">
+              <span class="job-title">Account Executive</span>
+              <span class="job-period">Apr 2023 — Mar 2024</span>
+            </div>
+            <p class="job-company">Spot Inc</p>
+            <ul class="job-bullets">
+              <li>Formulated customer RFPs introducing value propositions that resulted in new contractual business.</li>
+              <li>Resolved day-to-day logistics issues including freight diversions, reschedules, and tractor breakdowns.</li>
+              <li>Oversaw all shipment KPI tracking and reporting to identify and strengthen weak points.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="job">
+          <div class="job-dot"></div>
+          <div class="job-content">
+            <div class="job-meta">
+              <span class="job-title">Account Manager</span>
+              <span class="job-period">Jul 2022 — Apr 2023</span>
+            </div>
+            <p class="job-company">Spot Inc</p>
+            <ul class="job-bullets">
+              <li>Managed scheduling of 600+ FTL shipments per month across multiple portals and methods.</li>
+              <li>Matched customer lane synergies with carrier partners to secure competitive freight rates.</li>
+              <li>Provided customers with lane analysis and anticipated rate fluctuations from market disruptors.</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- RIGHT: Skills, Education, Interests -->
+    <div class="right-col">
+
+      <div class="section">
+        <p class="section-label">Education</p>
+        <div class="edu-block">
+          <p class="edu-school">Appalachian State University</p>
+          <p class="edu-degree">Bachelor of Science in<br>Business Administration</p>
+          <p class="edu-major">Supply Chain Management</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <p class="section-label">Key Skills</p>
+        <div class="skills-grid">
+          <span class="skill-tag">CRM</span>
+          <span class="skill-tag">B2B Prospecting</span>
+          <span class="skill-tag">Conflict Resolution</span>
+          <span class="skill-tag">Problem Solving</span>
+          <span class="skill-tag">Project Management</span>
+          <span class="skill-tag">Excel & Google Sheets</span>
+          <span class="skill-tag">AI / ChatGPT</span>
+          <span class="skill-tag">Systems Thinking</span>
+          <span class="skill-tag">Multi-Tasking</span>
+          <span class="skill-tag">Vendor Negotiation</span>
+          <span class="skill-tag">KPI Reporting</span>
+          <span class="skill-tag">Team Management</span>
+        </div>
+      </div>
+
+      <div class="section">
+        <p class="section-label">Other Experience</p>
+        <div class="other-list">
+          <div>Trelleborg Aerospace CS</div>
+          <div>Vail Resorts</div>
+          <div>Carrigan Farms</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <p class="section-label">Interests</p>
+        <div class="interests-list">
+          <div class="interest-item">Mountain Biking & Running</div>
+          <div class="interest-item">Snowboarding</div>
+          <div class="interest-item">Fly Fishing</div>
+          <div class="interest-item">Golf</div>
+          <div class="interest-item">Car Enthusiast & Tinkerer</div>
+          <div class="interest-item">The Outdoors</div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <span>Kevin Marshall</span>
+    <span>kevinmarshall665@gmail.com · 704.682.5724</span>
+  </footer>
+</div>
+
+</body>
+</html>
